@@ -1,27 +1,18 @@
 const canvas = document.getElementById('canvas1');
 
-const nPoints = 2;
-const nRads = 13;
-
 var ctx = canvas.getContext('2d');
 var w = window.innerWidth;
 var h = window.innerHeight;
 
-var point;
+var point = createPoint(w, h);
 var colour = getColor();
 var vector = createVector();
 var rad = 60;
 var mul = Math.random() * 0.7 + 0.3;
 var counter = 0;
-var jump = getInt(60, 500);
+var jump = getInt(600, 1200);
 
-const iv = setInterval(paint, 20);
-
-//function init() {
-//    point = createPoint(w, h);
-//    colour = getColor();
-//}
-
+const iv = setInterval(paint, 10);
 
 window.onload = function() {
     w = window.innerWidth;
@@ -57,15 +48,28 @@ function paint() {
     
     if (counter % getInt(5, 25) == 0) {
         mul *= -1;
+        if (counter % 13 == 0) {
+            dropCircles();
+        }
     }
     
-    if (rad < 10) {
-        rad += 30;
+    if (rad < 1) {
+        rad = 60;
+        point = createPoint(w, h);
         colour = getColor();
+        vector.x *= 0.7;
+        vector.y *= 0.7;
+    } else if (rad > 100) {
+        rad = 60;
+        point = createPoint(w, h);
+        colour = getColor();
+        vector.x *= 0.8;
+        vector.y *= 0.8;
+        mul *= -1;
     }
 
-    vector.x += (counter % 61) * 0.003;
-    vector.y += (counter % 61) * 0.003;
+    vector.x += (counter % 99) * 0.0005;
+    vector.y += (counter % 99) * 0.0005;
     
     if ((point.x > 0) && (point.x > w)) {
         vector.x *= -1;
@@ -90,17 +94,22 @@ function paint() {
         point.x = getInt(0, w);
         point.y = getInt(0, h);
         counter = 0;
-        jump = getInt(60, 500);
-        
-        let n = getInt(1, 7);
-        for (let i = 0; i < n; i++) {
-            ctx.beginPath();
-            let p2 = createPoint(w, h);
-            ctx.arc(p2.x, p2.y, getInt(2, 30), 0, 2 * Math.PI);
-            ctx.fillStyle = getColor();
-            ctx.fill();
-            ctx.closePath();
-        }
+        jump = getInt(600, 1200);
+        vector = createVector();
+        dropCircles();
+    }
+}
+
+function dropCircles() {
+    let n = getInt(1, 3);
+    for (let i = 0; i < n; i++) {
+        ctx.beginPath();
+        let p2x = point.x + getInt(-300, 300);
+        let p2y = point.y + getInt(-300, 300);
+        ctx.arc(p2x, p2y, getInt(2, 30), 0, 2 * Math.PI);
+        ctx.fillStyle = getColor();
+        ctx.fill();
+        ctx.closePath();
     }
 }
 
@@ -110,7 +119,7 @@ function clear() {
 
 
 function getColor() {
-    var cols = ['Crimson', 'DarkSlateBlue', 'Coral', '#14847b', '#6d6d6d'];
+    var cols = ['Crimson', 'DarkSlateBlue', 'Coral', '#14847b', '#6d6d6d', 'White'];
     return cols[Math.floor(Math.random() * cols.length)]
 }
 
