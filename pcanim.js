@@ -12,7 +12,31 @@ var mul = Math.random() * 0.7 + 0.3;
 var counter = 0;
 var jump = getInt(600, 1200);
 
-const iv = setInterval(paint, 10);
+var iv;
+var isRunning = false;
+function startAnimation() {
+    let btn = document.getElementById('btn_start');
+    if (isRunning) {
+        iv = clearInterval(iv);
+        isRunning = false;
+        btn.innerHTML = 'Start'
+    } else {
+        iv = setInterval(paint, 10);
+        isRunning = true;
+        btn.innerHTML = 'Stop'
+    }
+}
+
+function resetAnimation() {
+    isRunning = true;
+    startAnimation();
+    clear();
+}
+
+function download_img(el) {    
+    var imageURI = canvas.toDataURL("image/png");
+    el.href = imageURI;
+}
 
 window.onload = function() {
     w = window.innerWidth;
@@ -116,7 +140,6 @@ function dropCircles() {
 function clear() {
     ctx.clearRect(0, 0, w, h);
 }
-
 
 function getColor() {
     var cols = ['Crimson', 'DarkSlateBlue', 'Coral', '#14847b', '#6d6d6d', 'White'];
