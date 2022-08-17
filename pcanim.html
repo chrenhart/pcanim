@@ -2,13 +2,55 @@
 <html>
 <head>
 	<title>Rotating Circles</title>
+    
 	<style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+        
 		html, body {
 			overflow: hidden;
+            
 		}
+        
+        button, a {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            padding: 0.3em;
+            border: 4px solid crimson;
+            color: crimson;
+            background-color: transparent;
+            transition: .4s;
+            text-decoration: none;
+        }
+        
+        button:hover, a:hover {
+            color: darkslateblue;
+            border-color: darkslateblue;
+            transition: .4s;
+        }
+        
+        #controls {
+            opacity: 0.15;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            transition: .4s;
+        }
+        
+        #controls:hover {
+            opacity: 1;
+            background-color: white;
+            transition: .4s;
+        }
+        
 	</style>
 </head>
 <body>
+    <div id="controls">
+        <button id="btn_start" onclick="startAnimation()">Start</button>
+        <button id="btn_new" onclick="resetAnimation()">New</button>
+        <a id="download" download="pcanim.png" href="" onclick="download_img(this);">Save</a>
+    </div>
 	<!-- Hintergrundgrafik-Generator -->
 	<canvas id="canvas1"></canvas>
 	<script src="pcanim.js"></script>
